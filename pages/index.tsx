@@ -4,7 +4,8 @@ import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { useState, useEffect } from "react";
 import useHarvestedSushi from "../hooks/useHarvestedSushi";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
+import useWalletBalances from "../hooks/useWalletAssets";
 
 export default function Home() {
   const { account, activate, active } = useWeb3React();
@@ -52,7 +53,7 @@ export default function Home() {
 
             <div style={{ marginTop: "18px" }}>Address: {currentAccount}</div>
             {ethers.utils.isAddress(currentAccount) && (
-              <HarvestedSushi address={currentAccount} />
+              <WalletBalances address={currentAccount} />
             )}
           </>
         )}
@@ -62,6 +63,33 @@ export default function Home() {
     </div>
   );
 }
+
+const WalletBalances = ({ address }: { address: string }) => {
+  const { balances, ethRate } = useWalletBalances(address);
+  let totalUsdValue = BigNumber.from(0);
+  return (
+    <div>
+      {balances.map((b, key) => {
+        const tokenBalance = ethers.utils.formatUnits(
+          b.balance,
+          b.tokenInfo.decimals
+        );
+        // const ethValue = ethers.utils.formatUnits(b.rate, b.tokenInfo.decimals);
+        const usdValue = ethers.utils.formatUnits(
+          b.balance.mul(ethRate).div(b.rate),
+          6
+        );
+        totalUsdValue = totalUsdValue.add(b.balance.mul(ethRate).div(b.rate));
+        return (
+          <div key={key}>
+            {tokenBalance} {b.tokenInfo.symbol} ({usdValue} USD)
+          </div>
+        );
+      })}
+      <div>Total value: {ethers.utils.formatUnits(totalUsdValue, 6)}</div>
+    </div>
+  );
+};
 
 const HarvestedSushi = ({ address }: { address: string }) => {
   const { harvestedSushi, error } = useHarvestedSushi(address);
