@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "harvestedSushi": "ts-node --compiler-options={\\\"module\\\":\\\"commonJS\\\"} scripts/harvestedSushi.ts",
-    "tokenBalances": "ts-node --compiler-options={\\\"module\\\":\\\"commonJS\\\"} scripts/tokenBalances.ts"
+    "tokenBalances": "ts-node --compiler-options={\\\"module\\\":\\\"commonJS\\\"} scripts/scratchpad.ts"
   },
   "dependencies": {
     "@web3-react/core": "^6.1.1",

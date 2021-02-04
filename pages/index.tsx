@@ -3,7 +3,6 @@ import styles from "../styles/Home.module.css";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { useState, useEffect } from "react";
-import useHarvestedSushi from "../hooks/useHarvestedSushi";
 import { ethers, BigNumber } from "ethers";
 import useWalletBalances from "../hooks/useWalletAssets";
 
@@ -87,19 +86,6 @@ const WalletBalances = ({ address }: { address: string }) => {
         );
       })}
       <div>Total value: {ethers.utils.formatUnits(totalUsdValue, 6)}</div>
-    </div>
-  );
-};
-
-const HarvestedSushi = ({ address }: { address: string }) => {
-  const { harvestedSushi, error } = useHarvestedSushi(address);
-
-  return (
-    <div>
-      Harvested sushi lockup:
-      {harvestedSushi != null && !error
-        ? ethers.utils.formatUnits(harvestedSushi, 18)
-        : "--"}
     </div>
   );
 };
