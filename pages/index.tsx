@@ -85,7 +85,7 @@ const WalletBalances = ({ address }: { address: string }) => {
           </div>
         );
       })}
-      <div>Total value: {ethers.utils.formatUnits(totalUsdValue, 6)}</div>
+      <div>Total value: {ethers.utils.formatUnits(totalUsdValue, 6)} USD</div>
     </div>
   );
 };

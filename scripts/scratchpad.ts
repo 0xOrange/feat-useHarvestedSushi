@@ -33,6 +33,9 @@ const getBalances = async (address: string) => {
       ) {
         ethRate = BigNumber.from(rate);
       }
+      if (address.toLowerCase() === WETH.toLowerCase()) {
+        rate = BigNumber.from(10).pow(18);
+      }
 
       const tokenInfo = _find(
         tokenList.tokens,
@@ -44,7 +47,7 @@ const getBalances = async (address: string) => {
         rate: BigNumber.from(rate),
       };
     })
-    .filter((b) => b.balance.gt(0));
+    .filter((b) => b.balance.gt(0) && b.rate.gt(0));
 
   availableBalances.map((a) => {
     console.log(
@@ -105,4 +108,9 @@ const getEthRate = async (token: string) => {
 };
 
 // getEthRate("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48");
-getBalances("0x9e6e344f94305d36eA59912b0911fE2c9149Ed3E");
+const address = process.argv[2];
+if (!ethers.utils.isAddress(address)) {
+  console.error("Invalid address");
+} else {
+  getBalances(address);
+}

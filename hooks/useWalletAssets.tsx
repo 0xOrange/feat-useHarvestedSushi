@@ -1,6 +1,5 @@
 import { Contract, ethers, BigNumber } from "ethers";
-// https://raw.githubusercontent.com/sushiswapclassic/token-list/master/sushiswap.tokenlist.json
-import tokenList from "../sushiswapTokenList.json";
+import tokenList from "../sushiswapTokenList.json"; // // https://raw.githubusercontent.com/sushiswapclassic/token-list/master/sushiswap.tokenlist.json
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import _find from "lodash/find";
@@ -84,6 +83,10 @@ export default function useWalletBalances(address: string) {
           if (address.toLowerCase() === USDC.toLowerCase()) {
             setEthRate(BigNumber.from(rate));
           }
+          if (address.toLowerCase() === WETH.toLowerCase()) {
+            rate = BigNumber.from(10).pow(18);
+          }
+
           return {
             tokenInfo: _find(
               tokenList.tokens,
@@ -101,5 +104,8 @@ export default function useWalletBalances(address: string) {
     }
   }, [address, blockNumber]);
 
-  return { balances: balances.filter((b) => b.balance.gt(0)), ethRate };
+  return {
+    balances: balances.filter((b) => b.balance.gt(0) && b.rate.gt(0)),
+    ethRate,
+  };
 }
