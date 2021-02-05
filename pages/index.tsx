@@ -3,7 +3,6 @@ import styles from "../styles/Home.module.css";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { useState, useEffect } from "react";
-import useHarvestedSushi from "../hooks/useHarvestedSushi";
 import { ethers } from "ethers";
 
 export default function Home() {
@@ -50,9 +49,8 @@ export default function Home() {
               Check
             </button>
 
-            <div style={{ marginTop: "18px" }}>Address: {currentAccount}</div>
             {ethers.utils.isAddress(currentAccount) && (
-              <HarvestedSushi address={currentAccount} />
+              <div style={{ marginTop: "18px" }}>Account: {currentAccount}</div>
             )}
           </>
         )}
@@ -62,16 +60,3 @@ export default function Home() {
     </div>
   );
 }
-
-const HarvestedSushi = ({ address }: { address: string }) => {
-  const { harvestedSushi, error } = useHarvestedSushi(address);
-
-  return (
-    <div>
-      Harvested sushi lockup:
-      {harvestedSushi != null && !error
-        ? ethers.utils.formatUnits(harvestedSushi, 18)
-        : "--"}
-    </div>
-  );
-};
