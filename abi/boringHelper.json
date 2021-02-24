@@ -1,0 +1,35 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "address", "name": "who", "type": "address" },
+        {
+          "internalType": "address[]",
+          "name": "addresses",
+          "type": "address[]"
+        },
+        {
+          "internalType": "contract IFactory",
+          "name": "factory",
+          "type": "address"
+        },
+        { "internalType": "address", "name": "currency", "type": "address" }
+      ],
+      "name": "getBalances",
+      "outputs": [
+        {
+          "components": [
+            { "internalType": "address", "name": "token", "type": "address" },
+            { "internalType": "uint256", "name": "balance", "type": "uint256" },
+            { "internalType": "uint256", "name": "rate", "type": "uint256" }
+          ],
+          "internalType": "struct BoringCryptoTokenScanner.BalanceFull[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
