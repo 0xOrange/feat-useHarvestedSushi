@@ -31,12 +31,17 @@ export default function useSushiKitchen(address: string, currency: string) {
     async function getKitchen(address: string, currency: string) {
       const pids = [...Array(101).keys()].filter(
         (pid) =>
+          // ignore bad tokens
           pid != 29 &&
           pid != 30 &&
           pid != 33 &&
           pid != 45 &&
           pid != 61 &&
-          pid != 62
+          pid != 62 &&
+          pid != 102 &&
+          pid != 124 &&
+          pid != 125 &&
+          pid != 126
       );
       const result = await makerInfoContract(web3).getPairs(
         pids,
